@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- Simple HTML5 canvas test website -->
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 Canvas Tests</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+</head>
+
+<body>
+
+    <div style = "text-align:center;">
+        <canvas id="myCanvas1" width="500" height="300"></canvas>
+    </div>
+
+    <div style = "text-align:center;">
+        <canvas id="myCanvas2" width="500" height="300"></canvas>
+    </div>
+
+    <div class="PrecisionSliderContainer" style = "text-align:center;">
+        <b>Precision: </b>
+        <input type="range" min="0" max="20" value="10" class="slider" id="myPrecisionSlider" style="width:300px">
+    </div>
+
+    <!--
+	<div class="buttonContainer" style = "text-align:center;">
+        <input type="button" value="Rise time NOT included." onclick="" id="myButton" style="width:200px">
+    </div>
+	-->
+
+    <div class="AccuracySliderContainer" style = "text-align:center;">
+        <b>Accuracy: </b>
+        <input type="range" min="-10" max="10" value="0" class="slider" id="myAccuracySlider" style="width:300px">
+    </div>
+
+    <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+    <script  src="./script.js"></script>
+</body>
+
+</html>
