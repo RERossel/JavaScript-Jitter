@@ -1,16 +1,16 @@
-//console.log('Hello JavaScript');
-var canvas1 = document.getElementById("myCanvas1");
-var canvas2 = document.getElementById("myCanvas2");
-var precision  = document.getElementById("myPrecisionSlider");
-var accuracy  = document.getElementById("myAccuracySlider");
-//var button  = document.getElementById("myButton");
-//button.addEventListener("click", buttonAction);
+var canvas_bullseye = document.getElementById("canvas_bullseye");
+var canvas_waveform = document.getElementById("canvas_wavefrom");
 
-//console.log(canvas);
+var slider_precision  = document.getElementById("slider_precision");
+var slider_accuracy   = document.getElementById("slider_accuracy");
+var slider_resolution = document.getElementById("slider_resolution");
 
-// Save context in a variable: "Magic Paintbrush".
-var c1 = canvas1.getContext('2d');
-var c2 = canvas2.getContext('2d');
+var slider_precision_output  = document.getElementById("slider_precision_output");
+var slider_accuracy_output   = document.getElementById("slider_accuracy_output");
+var slider_resolution_output = document.getElementById("slider_resolution_output");
+
+var context_bullseye  = canvas_bullseye.getContext('2d');
+var context_waveform  = canvas_waveform.getContext('2d');
 
 
 var riseTime = 20;
@@ -21,26 +21,26 @@ function RisingEdge(x)
   
   this.x = x
   this.alpha = 1.0; //1.0;
-  this.jitter1 = (Math.random()-0.5) * precision.value * 5;
-  this.jitter2 = (Math.random()-0.5) * precision.value * 5;
+  this.jitter1 = (Math.random()-0.5) * slider_precision.value * 5;
+  this.jitter2 = (Math.random()-0.5) * slider_precision.value * 5;
   
   
   // Defining an anonymous function.
   this.draw = function()
   {
     // Line path
-    c2.beginPath();
+    context_waveform.beginPath();
     
-    c2.strokeStyle = 'rgba(0, 0, 0, ' + this.alpha + ' )';
-    c2.lineCap = "round";
-    c2.lineWidth = 5;
+    context_waveform.strokeStyle = 'rgba(0, 0, 0, ' + this.alpha + ' )';
+    context_waveform.lineCap = "round";
+    context_waveform.lineWidth = 5;
     
-    c2.moveTo(50, 200);
-    c2.lineTo(this.x + this.jitter1, 200);
-    c2.lineTo(this.x + riseTime + this.jitter1, 50);
-    c2.lineTo(450, 50);
+    context_waveform.moveTo(50, 200);
+    context_waveform.lineTo(this.x + this.jitter1, 200);
+    context_waveform.lineTo(this.x + riseTime + this.jitter1, 50);
+    context_waveform.lineTo(450, 50);
     
-    c2.stroke();
+    context_waveform.stroke();
             
   }
   
@@ -70,20 +70,20 @@ function Impact(x, y)
   this.eAngle = 2*Math.PI;
   
   this.alpha = 1.0; //1.0;
-  this.jitterX = (Math.random()-0.5) * precision.value * 5;
-  this.jitterY = (Math.random()-0.5) * precision.value * 5;
+  this.jitterX = (Math.random()-0.5) * slider_precision.value * 5;
+  this.jitterY = (Math.random()-0.5) * slider_precision.value * 5;
   
   
   // Defining an anonymous function.
   this.draw = function()
   {
     // Line path
-    c1.beginPath();
-    c1.strokeStyle = 'rgba(  0,   0,   0, ' + this.alpha + ' )';
-    c1.fillStyle   = 'rgba(255, 255, 255, ' + this.alpha + ' )';
-    c1.arc(this.x+this.jitterX, this.y+this.jitterY, 5, this.sAngle, this.eAngle);
-    c1.stroke();
-    c1.fill();
+    context_bullseye.beginPath();
+    context_bullseye.strokeStyle = 'rgba(  0,   0,   0, ' + this.alpha + ' )';
+    context_bullseye.fillStyle   = 'rgba(255, 255, 255, ' + this.alpha + ' )';
+    context_bullseye.arc(this.x+this.jitterX, this.y+this.jitterY, 5, this.sAngle, this.eAngle);
+    context_bullseye.stroke();
+    context_bullseye.fill();
             
   }
   
@@ -123,54 +123,54 @@ function buttonAction()
 
 function drawJitter()
 {
-  var maxJitter = (1.0-0.5) * precision.value * 5;
-  c2.beginPath();
-  c2.strokeStyle = 'rgba(191, 0, 0, 1 )';
-  c2.lineCap = "round";
-  c2.lineWidth = 3;
-  c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 - maxJitter, 220);
+  var maxJitter = (1.0-0.5) * slider_precision.value * 5;
+  context_waveform.beginPath();
+  context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
+  context_waveform.lineCap = "round";
+  context_waveform.lineWidth = 3;
+  context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 - maxJitter, 220);
   if (buttonState == false) {
-    c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + /*riseTime*/ + maxJitter, 220);    
+    context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + /*riseTime*/ + maxJitter, 220);    
   } else {
-    c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 220);
   }
-  c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 - maxJitter, 210);
-  c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 - maxJitter, 230);
+  context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 - maxJitter, 210);
+  context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 - maxJitter, 230);
   if (buttonState == false) {
-    c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 + /*riseTime*/ + maxJitter, 210);
-    c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + /*riseTime*/ + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + /*riseTime*/ + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + /*riseTime*/ + maxJitter, 230);
   } else {
-    c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 210);
-    c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 230);
   }
 
-  c2.stroke();
+  context_waveform.stroke();
   
   if (buttonState == true)
   {
-	  c2.beginPath();
-	  c2.strokeStyle = 'rgba(  0,   0, 191, 1 )';
-	  c2.lineCap = "round";
-	  c2.lineWidth = 3;
+	  context_waveform.beginPath();
+	  context_waveform.strokeStyle = 'rgba(  0,   0, 191, 1 )';
+	  context_waveform.lineCap = "round";
+	  context_waveform.lineWidth = 3;
 	  //c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 + maxJitter, 210);
 	  //c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + maxJitter, 230);
-	  c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 + maxJitter, 220);
-	  c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 220);
-	  c2.moveTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 210);
-	  c2.lineTo(canvas2.width/2+Number(accuracy.value)*10 + riseTime + maxJitter, 230);
-	  c2.stroke();
+	  context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + maxJitter, 220);
+	  context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 220);
+	  context_waveform.moveTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 210);
+	  context_waveform.lineTo(canvas_waveform.width/2+Number(slider_accuracy.value)*10 + riseTime + maxJitter, 230);
+	  context_waveform.stroke();
   }
   
   
   
-  c2.beginPath();
-  c2.moveTo(canvas2.width/2, 20);
-  c2.lineTo(canvas2.width/2, canvas2.height-70);
-  c2.strokeStyle = 'rgba(  0,   0, 191, 0.5 )';
-  c2.save();
-  c2.setLineDash([5, 15]);
-  c2.stroke();
-  c2.restore();
+  context_waveform.beginPath();
+  context_waveform.moveTo(canvas_waveform.width/2, 20);
+  context_waveform.lineTo(canvas_waveform.width/2, canvas_waveform.height-70);
+  context_waveform.strokeStyle = 'rgba(  0,   0, 191, 0.5 )';
+  context_waveform.save();
+  context_waveform.setLineDash([5, 15]);
+  context_waveform.stroke();
+  context_waveform.restore();
   
 }
 
@@ -179,8 +179,8 @@ function drawBullseye()
 {
   //console.log(c1);
   
-  x = canvas1.width/2;
-  y = canvas1.height/2;
+  x = canvas_bullseye.width/2;
+  y = canvas_bullseye.height/2;
   radius = 140;
   sAngle = 0;
   eAngle = 2*Math.PI;
@@ -188,82 +188,82 @@ function drawBullseye()
   //console.log(x);
   //console.log(y);
   
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(255, 255, 255, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius, sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(255, 255, 255, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius, sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(255, 255, 255, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.1), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(255, 255, 255, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.1), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(255, 255, 255, 1 )';
-  c1.fillStyle   = 'rgba(  0,   0,   0, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.2), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(255, 255, 255, 1 )';
+  context_bullseye.fillStyle   = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.2), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(255, 255, 255, 1 )';
-  c1.fillStyle   = 'rgba(  0,   0,   0, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.3), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(255, 255, 255, 1 )';
+  context_bullseye.fillStyle   = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.3), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba( 61, 164, 241, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.4), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba( 61, 164, 241, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.4), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba( 61, 164, 241, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.5), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba( 61, 164, 241, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.5), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(220,  24,  48, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.6), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(220,  24,  48, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.6), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(220,  24,  48, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.7), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(220,  24,  48, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.7), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
   
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(247, 218,  33, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.8), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(247, 218,  33, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.8), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(247, 218,  33, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, radius-(radius*0.9), sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(247, 218,  33, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, radius-(radius*0.9), sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
 
-  c1.strokeStyle = 'rgba(  0,   0,   0, 1 )';
-  c1.fillStyle   = 'rgba(  0,   0,   0, 1 )';
-  c1.beginPath();
-  c1.arc(x, y, 2, sAngle, eAngle);
-  c1.stroke();
-  c1.fill();
+  context_bullseye.strokeStyle = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.fillStyle   = 'rgba(  0,   0,   0, 1 )';
+  context_bullseye.beginPath();
+  context_bullseye.arc(x, y, 2, sAngle, eAngle);
+  context_bullseye.stroke();
+  context_bullseye.fill();
   
 }
 
@@ -299,8 +299,8 @@ function animate()
   
   // Start animation.
   requestAnimationFrame(animate);
-  c2.clearRect( 0, 0, innerWidth, innerHeight);
-  c1.clearRect( 0, 0, innerWidth, innerHeight);
+  context_waveform.clearRect( 0, 0, innerWidth, innerHeight);
+  context_bullseye.clearRect( 0, 0, innerWidth, innerHeight);
   
   drawJitter();
   drawBullseye();
@@ -315,8 +315,8 @@ function animate()
     //console.log(typeof(accuracy.value));
     //console.log(typeof(Number(accuracy.valu)));
     //console.log((canvas2.width/2)+accuracy.value);
-    risingEdges.unshift(new RisingEdge(canvas2.width/2+Number(accuracy.value)*10));
-    impacts.unshift(new Impact(canvas1.width/2+Number(accuracy.value)*10, 150));
+    risingEdges.unshift(new RisingEdge(canvas_waveform.width/2+Number(slider_accuracy.value)*10));
+    impacts.unshift(new Impact(canvas_bullseye.width/2+Number(slider_accuracy.value)*10, 150));
     diffSums = 0;
   }
   
@@ -345,7 +345,7 @@ function animate()
   
   // Print the current jitter value obtained from the precision slider.
   var emoji = 0x1F354
-  switch (Number(precision.value)) {
+  switch (Number(slider_precision.value)) {
     case 4:
       emoji = 0x1F62C
       break;
@@ -353,10 +353,13 @@ function animate()
       emoji = 0x1F62B;
   }
   //String.fromCodePoint(emoji)
-  c2.font = "25px Arial";
-  c2.textAlign = "center";
-  c2.fillText("Precision (Jitter) value: " + precision.value, 250, 260);
-  c2.fillText("Accuracy value: " + accuracy.value, 250, 290);
+  context_waveform.font = "25px Arial";
+  context_waveform.textAlign = "center";
+  //context_waveform.fillText("Precision (Jitter) value: " + slider_precision.value, 250, 260);
+  //context_waveform.fillText("Accuracy value: " + slider_accuracy.value, 250, 290);
+  slider_precision_output.textContent  = slider_precision.value;
+  slider_accuracy_output.textContent   = slider_accuracy.value;
+  slider_resolution_output.textContent = slider_resolution.value;
   
 }
 

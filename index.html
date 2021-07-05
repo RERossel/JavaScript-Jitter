@@ -1,41 +1,80 @@
 <!DOCTYPE html>
-<!-- Simple HTML5 canvas test website -->
-<html lang="en" >
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HTML5 Canvas Tests</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 canvas visualization of precision, accuracy, and resolution</title>
     <!-- <link rel="stylesheet" href="./style.css"> -->
+    <style>
+        div {
+            text-align: center;
+        }
+        .slider_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .slider_label {
+            text-align: left;
+            width: 85px;
+        }
+        .slider_output {
+            padding-left: 10px;
+            text-align: left;
+            width: 80px;
+        }
+        .slider_value {
+            text-align: right;
+            display: inline-block;
+            width: 20px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div style = "text-align:center;">
-        <canvas id="myCanvas1" width="500" height="300"></canvas>
+    <div>
+        <canvas id="canvas_bullseye" width="500" height="300"></canvas>
     </div>
 
-    <div style = "text-align:center;">
-        <canvas id="myCanvas2" width="500" height="300"></canvas>
+    <div>
+        <canvas id="canvas_wavefrom" width="500" height="300"></canvas>
     </div>
 
-    <div class="PrecisionSliderContainer" style = "text-align:center;">
-        <b>Precision: </b>
-        <input type="range" min="0" max="20" value="10" class="slider" id="myPrecisionSlider" style="width:300px">
+    <div class="slider_container">
+        <span class="slider_label">
+            <b>Precision: </b>
+        </span>
+        <input id="slider_precision" type="range" min="0" max="20" value="10" class="slider" style="width:300px">
+        <span class="slider_output">
+            value: <span id="slider_precision_output" class="slider_value">10</span>
+        </span>
     </div>
 
-    <!--
-	<div class="buttonContainer" style = "text-align:center;">
-        <input type="button" value="Rise time NOT included." onclick="" id="myButton" style="width:200px">
+    <div class="slider_container">
+        <span class="slider_label">
+            <b>Accuracy: </b>
+        </span>
+        <input id="slider_accuracy" type="range" min="-10" max="10" value="0" class="slider" style="width:300px">
+        <span class="slider_output">
+            value: <span id="slider_accuracy_output" class="slider_value">0</span>
+        </span>
     </div>
-	-->
 
-    <div class="AccuracySliderContainer" style = "text-align:center;">
-        <b>Accuracy: </b>
-        <input type="range" min="-10" max="10" value="0" class="slider" id="myAccuracySlider" style="width:300px">
+    <div class="slider_container">
+        <span class="slider_label">
+            <b>Resolution: </b>
+        </span>
+        <input id="slider_resolution" type="range" min="1" max="10" value="1" class="slider" style="width:300px">
+        
+        <span class="slider_output">
+            value: <span id="slider_resolution_output" class="slider_value">1</span>
+        </span>
     </div>
 
-    <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
     <script  src="./script.js"></script>
-</body>
 
+</body>
 </html>
