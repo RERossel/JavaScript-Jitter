@@ -368,12 +368,12 @@ function animate() {
   accuracy = Number(slider_accuracy.value);
   precision = Number(slider_precision.value);
   jitter = 20-precision;
-  resolution = Number(slider_resolution.value);
+  resolution = 20-Number(slider_resolution.value);
 
   // Display the current slider values in the corresponding HTML elements.
   slider_accuracy_output.textContent = accuracy;
   slider_precision_output.textContent = precision;
-  slider_resolution_output.textContent = resolution;
+  slider_resolution_output.textContent = slider_resolution.value;
 
 }
 
