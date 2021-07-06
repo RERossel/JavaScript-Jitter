@@ -18,7 +18,7 @@
         }
         .slider_label {
             text-align: left;
-            width: 85px;
+            width: 90px;
         }
         .slider_output {
             padding-left: 10px;
@@ -42,17 +42,7 @@
     <div>
         <canvas id="canvas_wavefrom" width="500" height="300"></canvas>
     </div>
-
-    <div class="slider_container">
-        <span class="slider_label">
-            <b>Precision: </b>
-        </span>
-        <input id="slider_precision" type="range" min="0" max="20" value="10" class="slider" style="width:300px">
-        <span class="slider_output">
-            value: <span id="slider_precision_output" class="slider_value">10</span>
-        </span>
-    </div>
-
+    
     <div class="slider_container">
         <span class="slider_label">
             <b>Accuracy: </b>
@@ -62,17 +52,40 @@
             value: <span id="slider_accuracy_output" class="slider_value">0</span>
         </span>
     </div>
+    <div>
+        How well do we hit the <u>target</u> value?
+    </div>
+    </br>
+
+    <div class="slider_container">
+        <span class="slider_label">
+            <b>Precision<sup><span title="Jitter is the inverse of precision. High precision means low jitter.">&#x2139;</span></sup>: </b>
+        </span>
+        <input id="slider_precision" type="range" min="0" max="20" value="10" class="slider" style="width:300px">
+        <span class="slider_output">
+            value: <span id="slider_precision_output" class="slider_value">10</span>
+        </span>
+    </div>
+    <div>
+        How well do we hit the <u>previous</u> value <i>again</i>? </br>
+        <div style="color: rgb(127, 127, 127);">&#x2139;: <b>Jitter</b> is the inverse of precision. High precision means low jitter.</div>
+    </div>
+    </br>
 
     <div class="slider_container">
         <span class="slider_label">
             <b>Resolution: </b>
         </span>
-        <input id="slider_resolution" type="range" min="1" max="10" value="1" class="slider" style="width:300px">
+        <input id="slider_resolution" type="range" min="1" max="19" value="10" class="slider" style="width:300px">
         
         <span class="slider_output">
             value: <span id="slider_resolution_output" class="slider_value">1</span>
         </span>
     </div>
+    <div class="slider_description">
+        How <i>fine</i> can we adjust our values?
+    </div>
+    </br>
 
     <script  src="./script.js"></script>
 

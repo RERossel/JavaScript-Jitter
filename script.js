@@ -1,30 +1,34 @@
 var canvas_bullseye = document.getElementById("canvas_bullseye");
 var canvas_waveform = document.getElementById("canvas_wavefrom");
 
-var slider_precision = document.getElementById("slider_precision");
 var slider_accuracy = document.getElementById("slider_accuracy");
+var slider_precision = document.getElementById("slider_precision");
 var slider_resolution = document.getElementById("slider_resolution");
 
-var slider_precision_output = document.getElementById("slider_precision_output");
 var slider_accuracy_output = document.getElementById("slider_accuracy_output");
+var slider_precision_output = document.getElementById("slider_precision_output");
 var slider_resolution_output = document.getElementById("slider_resolution_output");
 
 var context_bullseye = canvas_bullseye.getContext('2d');
 var context_waveform = canvas_waveform.getContext('2d');
 
 var riseTime = 25;
-// TODO: Update jitter value on slider movement.
-//var jitter = slider_precision.value;
 var accuracy = slider_accuracy.value;
+var precision = slider_precision.value;
+var jitter = 20-precision;
 var resolution = slider_resolution.value;
 
+
+// slider_precision.onchange = function() {
+//   console.log("precision changed.");
+// }
 
 // Treat a function as a JavaScript Object.
 function DrawRisingEdge(startXValue) {
 
   this.startXCoordinate = startXValue
   this.alphaOpacity = 1.0;
-  this.jitter = (Math.random() - 0.5) * slider_precision.value * 5;
+  this.jitter = (Math.random() - 0.5) * slider_precision.value * slider_resolution.value;
 
   // Methods of this object are implemented as anonymous functions.
   this.draw = function () {
@@ -67,8 +71,8 @@ function DrawBullseyeHit(x, y) {
   this.startAngle = 0;
   this.endAngle = 2 * Math.PI;
   this.alphaOpacity = 1.0;
-  this.jitterX = (Math.random() - 0.5) * slider_precision.value * 5;
-  this.jitterY = (Math.random() - 0.5) * slider_precision.value * 5;
+  this.jitterX = (Math.random() - 0.5) * slider_precision.value * slider_resolution.value;
+  this.jitterY = (Math.random() - 0.5) * slider_precision.value * slider_resolution.value;
 
   // Draw line path representing one bullseye hit on the canvas.
   this.draw = function () {
@@ -118,30 +122,30 @@ function buttonAction()
 
 function drawJitterMargin() {
 
-  var maxJitter = (1.0 - 0.5) * slider_precision.value * 5;
+  var maxJitter = (1.0 - 0.5) * slider_precision.value * slider_resolution.value;
 
   // Draw the jitter margin indicator as a red line below the waveform.
   context_waveform.beginPath();
   context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
   context_waveform.lineCap = "round";
   context_waveform.lineWidth = 3;
-  context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 - maxJitter, 220);
+  context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value - maxJitter, 220);
 
   if (buttonState == false) {
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 +          + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value +          + maxJitter, 220);
   } else {
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 220);
   }
 
-  context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 - maxJitter, 210);
-  context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 - maxJitter, 230);
+  context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value - maxJitter, 210);
+  context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value - maxJitter, 230);
 
   if (buttonState == false) {
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 +          + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 +          + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value +          + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value +          + maxJitter, 230);
   } else {
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 230);
   }
 
   context_waveform.stroke();
@@ -152,10 +156,10 @@ function drawJitterMargin() {
     context_waveform.strokeStyle = 'rgba(  0,   0, 191, 1 )';
     //context_waveform.lineCap = "round";
     //context_waveform.lineWidth = 3;
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + maxJitter, 220);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 220);
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10 + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 220);
+    context_waveform.moveTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value + riseTime + maxJitter, 230);
     context_waveform.stroke();
   }
 
@@ -260,6 +264,37 @@ function drawBullseye() {
 }
 
 
+var drawGrid = function() {
+
+  context_waveform.lineWidth = 1;
+  context_waveform.strokeStyle = "#ccc";
+
+  for (var x = canvas_waveform.width/2; x < canvas_waveform.width; x += Number(slider_resolution.value)) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 0);
+    context_waveform.lineTo(x, canvas_waveform.height);
+    context_waveform.stroke();
+  }
+  for (var x = canvas_waveform.width/2; x > 0; x -= Number(slider_resolution.value)) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 0);
+    context_waveform.lineTo(x, canvas_waveform.height);
+    context_waveform.stroke();
+  }
+
+
+  /*
+  for (var y = 1; y < canvas_waveform.height; y += Number(slider_resolution.value)) {
+    context_waveform.strokeStyle = "#ddd";
+    context_waveform.beginPath();
+    context_waveform.moveTo(0, y);
+    context_waveform.lineTo(canvas_waveform.width, y);
+    context_waveform.stroke();
+  }
+  */
+}
+
+
 var risingEdges = [];
 var bullseyeHits = [];
 var nowMilliseconds = 0;
@@ -290,13 +325,15 @@ function animate() {
   context_waveform.clearRect(0, 0, innerWidth, innerHeight);
   context_bullseye.clearRect(0, 0, innerWidth, innerHeight);
 
+  drawGrid();
+
   drawJitterMargin();
   drawBullseye();
 
   // Add a new rising edge every 50 ms.
   if (loopTimeSum > 50) {
-    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + Number(slider_accuracy.value) * 10));
-    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + Number(slider_accuracy.value) * 10, 150));
+    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + Number(slider_accuracy.value) * slider_resolution.value));
+    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + Number(slider_accuracy.value) * slider_resolution.value, 150));
     loopTimeSum = 0;
   }
 
@@ -320,9 +357,14 @@ function animate() {
     }
   }
 
+  accuracy = slider_accuracy.value;
+  precision = slider_precision.value;
+  jitter = 20-slider_precision.value;
+  resolution = slider_resolution.value;
+
   // Display the current slider values in the corresponding HTML elements.
-  slider_precision_output.textContent = slider_precision.value;
   slider_accuracy_output.textContent = slider_accuracy.value;
+  slider_precision_output.textContent = slider_precision.value;
   slider_resolution_output.textContent = slider_resolution.value;
 
 }
