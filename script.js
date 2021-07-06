@@ -145,23 +145,23 @@ function drawJitterMargin() {
   context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
   context_waveform.lineCap = "round";
   context_waveform.lineWidth = 3;
-  context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution - maxJitter, 220);
+  context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 220);
 
   if (buttonState == false) {
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution +          + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 220);
   } else {
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 220);
   }
 
-  context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution - maxJitter, 210);
-  context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution - maxJitter, 230);
+  context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 210);
+  context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 230);
 
   if (buttonState == false) {
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution +          + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution +          + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 230);
   } else {
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 230);
   }
 
   context_waveform.stroke();
@@ -172,10 +172,10 @@ function drawJitterMargin() {
     context_waveform.strokeStyle = 'rgba(  0,   0, 191, 1 )';
     //context_waveform.lineCap = "round";
     //context_waveform.lineWidth = 3;
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + maxJitter, 220);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 220);
-    context_waveform.moveTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + Number(accuracy) * resolution + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 220);
+    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 230);
     context_waveform.stroke();
   }
 
@@ -340,8 +340,8 @@ function animate() {
 
   // Add a new rising edge every 50 ms.
   if (loopTimeSum > 50) {
-    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + Number(accuracy) * slider_resolution.value));
-    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + Number(accuracy) * slider_resolution.value, 150));
+    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * resolution));
+    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * resolution, 150));
     loopTimeSum = 0;
   }
 
