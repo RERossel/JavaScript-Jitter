@@ -13,6 +13,7 @@ var context_bullseye = canvas_bullseye.getContext('2d');
 var context_waveform = canvas_waveform.getContext('2d');
 
 var riseTime = 25;
+var unit = 10; // One unit represents 10 pixels
 var accuracy = Number(slider_accuracy.value);
 var precision = Number(slider_precision.value);
 var jitter = 20-precision;
@@ -138,30 +139,33 @@ function buttonAction()
 
 function drawJitterMargin() {
 
-  var maxJitter = (1.0 - 0.5) * jitter * resolution;
+  var maxJitter = (1.0 - 0.5) * jitter * unit;
+
+  console.log(maxJitter);
 
   // Draw the jitter margin indicator as a red line below the waveform.
-  context_waveform.beginPath();
   context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
   context_waveform.lineCap = "round";
   context_waveform.lineWidth = 3;
-  context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 220);
+
+    context_waveform.beginPath();
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 220);
 
   if (buttonState == false) {
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 220);
   } else {
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 220);
   }
 
-  context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 210);
-  context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution - maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 230);
 
   if (buttonState == false) {
-    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution +          + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 230);
   } else {
-    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 230);
   }
 
   context_waveform.stroke();
@@ -172,10 +176,10 @@ function drawJitterMargin() {
     context_waveform.strokeStyle = 'rgba(  0,   0, 191, 1 )';
     //context_waveform.lineCap = "round";
     //context_waveform.lineWidth = 3;
-    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + maxJitter, 220);
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 220);
-    context_waveform.moveTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + accuracy * resolution + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 220);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 230);
     context_waveform.stroke();
   }
 
@@ -302,6 +306,50 @@ var drawGrid = function() {
 
 }
 
+var drawTimeSegments = function() {
+
+  context_waveform.lineWidth = 1;
+  context_waveform.strokeStyle = "#000";
+
+  // Draw a horizontal line.
+  context_waveform.beginPath();
+  context_waveform.moveTo(25, 270);
+  context_waveform.lineTo(475, 270);
+  context_waveform.stroke();
+
+  // Draw ten vertical tickmarks
+  // Draw the first half of the tickmarks from the middle to the left.
+  for (var x = canvas_waveform.width/2; x > 0; x -= 50) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 260);
+    context_waveform.lineTo(x, 280);
+    context_waveform.stroke();
+  }
+  // Draw the second half of the the tickmarks from the middle to the right.
+  for (var x = canvas_waveform.width/2; x < canvas_waveform.width; x += 50) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 260);
+    context_waveform.lineTo(x, 280);
+    context_waveform.stroke();
+  }
+  // Draw the first half of the tickmarks from the middle to the left.
+  for (var x = canvas_waveform.width/2; x > 0; x -= 100) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 260);
+    context_waveform.lineTo(x, 280);
+    context_waveform.stroke();
+  }
+  // Draw the second half of the the tickmarks from the middle to the right.
+  for (var x = canvas_waveform.width/2; x < canvas_waveform.width; x += 100) {
+    context_waveform.beginPath();
+    context_waveform.moveTo(x, 260);
+    context_waveform.lineTo(x, 280);
+    context_waveform.stroke();
+  }
+
+}
+console.log(canvas_waveform.width/2);
+
 
 var risingEdges = [];
 var bullseyeHits = [];
@@ -334,14 +382,15 @@ function animate() {
   context_bullseye.clearRect(0, 0, innerWidth, innerHeight);
 
   drawGrid();
+  drawTimeSegments();
 
   drawJitterMargin();
   drawBullseye();
 
   // Add a new rising edge every 50 ms.
   if (loopTimeSum > 50) {
-    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * resolution));
-    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * resolution, 150));
+    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * unit));
+    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * unit, 150));
     loopTimeSum = 0;
   }
 
@@ -368,7 +417,7 @@ function animate() {
   accuracy = Number(slider_accuracy.value);
   precision = Number(slider_precision.value);
   jitter = 20-precision;
-  resolution = 20-Number(slider_resolution.value);
+  resolution = Math.max(1, 20-Number(slider_resolution.value));
 
   // Display the current slider values in the corresponding HTML elements.
   slider_accuracy_output.textContent = accuracy;
