@@ -12,12 +12,6 @@ var slider_resolution_output = document.getElementById("slider_resolution_output
 var context_bullseye = canvas_bullseye.getContext('2d');
 var context_waveform = canvas_waveform.getContext('2d');
 
-var riseTime = 25;
-var unit = 10; // One unit represents 10 pixels
-var accuracy = Number(slider_accuracy.value);
-var precision = Number(slider_precision.value);
-var jitter = 20-precision;
-var resolution = Number(slider_resolution.value);
 
 
 // slider_precision.onchange = function() {
@@ -69,6 +63,7 @@ function DrawRisingEdge(startXValue) {
 }
 
 
+
 // Treat a function as a JavaScript Object as we want to have multiple instances 
 // representing multiple bullseye hit at different stages of fade-out.
 function DrawBullseyeHit(x, y) {
@@ -117,6 +112,7 @@ function DrawBullseyeHit(x, y) {
 }
 
 
+
 // ===== TO BE DELETED - WE DON'T HAVE A BUTTON
 var buttonState = false;
 //button.value = "Rise time NOT shown.";
@@ -137,11 +133,12 @@ function buttonAction()
 // ==========
 
 
+
 function drawJitterMargin() {
 
-  var maxJitter = (1.0 - 0.5) * jitter * unit;
+  var maxJitter = (1.0 - 0.5) * jitter * resolution;
 
-  console.log(maxJitter);
+  //console.log(maxJitter);
 
   // Draw the jitter margin indicator as a red line below the waveform.
   context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
@@ -149,23 +146,23 @@ function drawJitterMargin() {
   context_waveform.lineWidth = 3;
 
     context_waveform.beginPath();
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 220);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution )            - maxJitter, 220);
 
   if (buttonState == false) {
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution )            + maxJitter, 220);
   } else {
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 220);
   }
 
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            - maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution )            - maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution )            - maxJitter, 230);
 
   if (buttonState == false) {
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution )            + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution )            + maxJitter, 230);
   } else {
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 230);
   }
 
   context_waveform.stroke();
@@ -176,10 +173,10 @@ function drawJitterMargin() {
     context_waveform.strokeStyle = 'rgba(  0,   0, 191, 1 )';
     //context_waveform.lineCap = "round";
     //context_waveform.lineWidth = 3;
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit )            + maxJitter, 220);
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 220);
-    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 210);
-    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * unit ) + riseTime + maxJitter, 230);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution )            + maxJitter, 220);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 220);
+    context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 210);
+    context_waveform.lineTo(canvas_waveform.width / 2 + ( accuracy * resolution ) + riseTime + maxJitter, 230);
     context_waveform.stroke();
   }
 
@@ -194,6 +191,7 @@ function drawJitterMargin() {
   context_waveform.restore();
 
 }
+
 
 
 function drawBullseye() {
@@ -284,6 +282,7 @@ function drawBullseye() {
 }
 
 
+
 var drawGrid = function() {
 
   context_waveform.lineWidth = 1;
@@ -305,6 +304,8 @@ var drawGrid = function() {
   }
 
 }
+
+
 
 var drawTimeSegments = function() {
 
@@ -348,7 +349,7 @@ var drawTimeSegments = function() {
   }
 
 }
-console.log(canvas_waveform.width/2);
+
 
 
 var risingEdges = [];
@@ -357,6 +358,87 @@ var nowMilliseconds = 0;
 var prvMilliseconds = 0;
 var loopTime = 0;
 var loopTimeSum = 0;
+
+var riseTime = 25;
+var accuracy
+var precision
+var jitter
+var resolution
+var resolution_max = 51;
+var resolution_min =  1;
+var nsValue = 10; // 10 pixels per nanosecond
+var range_max_px = 200; // Range in pixels
+var range_max_ns = range_max_px / nsValue; // 40 nanoseconds
+
+
+// Function to perform when slider is moved
+function read_resolution_slider() {
+  console.log("-----------------------");
+  resolution = Math.max(resolution_min, resolution_max-Number(slider_resolution.value));
+  console.log("Resolution: " + resolution);
+  // Display the current slider values in the corresponding HTML elements.
+  slider_resolution_output.textContent = slider_resolution.value;
+
+  console.log("slider_precision.value: " + Number(slider_precision.value));
+  console.log("slider_precision.max: " + slider_precision.max);
+  var precision_before = (Number(slider_precision.value) / Number(slider_precision.max)).toPrecision(1);
+  console.log("precision_before: " + precision_before);
+  console.log("resolution: " + resolution);
+  slider_precision.max =  range_max_px    / resolution;
+  console.log("slider_precision.max: " + slider_precision.max);
+  slider_precision.value = (precision_before * Number(slider_precision.max));//.toPrecision(1);
+  console.log("slider_precision.value: " + slider_precision.value);
+  read_precision_slider();
+
+  slider_accuracy.max  =  Math.round((range_max_px/2) / resolution);
+  slider_accuracy.min  = -Math.round((range_max_px/2) / resolution);
+}
+// Read variable values from HTML sliders when we move them (input, not change)
+slider_resolution.addEventListener('input', function() {
+  read_resolution_slider();
+}, false);
+// Perform slider function at least once when the script is executed for the first time
+read_resolution_slider();
+
+// Function to perform when slider is moved
+function read_precision_slider() {
+  precision = Number(slider_precision.value);
+  console.log("Precision: " + precision);
+  // Display the current slider values in the corresponding HTML elements.
+  slider_precision_output.textContent = precision;
+  jitter = slider_precision.max-precision;
+}
+// Read variable values from HTML sliders when we move them (input, not change)
+slider_precision.addEventListener('input', function() {
+  read_precision_slider();
+}, false);
+// Perform slider function at least once when the script is executed for the first time
+read_precision_slider();
+
+
+// Function to perform when slider is moved
+function read_accuracy_slider() {
+  accuracy  = Number(slider_accuracy.value);
+  console.log("Accuracy: " + accuracy);
+  // Display the current slider values in the corresponding HTML elements.
+  slider_accuracy_output.textContent = accuracy;
+}
+// Read variable values from HTML sliders when we move them (input, not change)
+slider_accuracy.addEventListener('input', function() {
+  read_accuracy_slider();
+}, false);
+// Perform slider function at least once when the script is executed for the first time
+read_accuracy_slider();
+
+
+
+
+
+
+
+
+
+
 
 // Main animation loop
 function animate() {
@@ -374,7 +456,7 @@ function animate() {
   }
 
   loopTimeSum = loopTimeSum + loopTime;
-
+  
 
   // Start animation via recursive call.
   requestAnimationFrame(animate);
@@ -389,8 +471,8 @@ function animate() {
 
   // Add a new rising edge every 50 ms.
   if (loopTimeSum > 50) {
-    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * unit));
-    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * unit, 150));
+    risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * resolution));
+    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * resolution, 150));
     loopTimeSum = 0;
   }
 
@@ -414,15 +496,7 @@ function animate() {
     }
   }
 
-  accuracy = Number(slider_accuracy.value);
-  precision = Number(slider_precision.value);
-  jitter = 20-precision;
-  resolution = Math.max(1, 20-Number(slider_resolution.value));
 
-  // Display the current slider values in the corresponding HTML elements.
-  slider_accuracy_output.textContent = accuracy;
-  slider_precision_output.textContent = precision;
-  slider_resolution_output.textContent = slider_resolution.value;
 
 }
 
