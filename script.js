@@ -358,55 +358,45 @@ var nowMilliseconds = 0;
 var prvMilliseconds = 0;
 var loopTime = 0;
 var loopTimeSum = 0;
-
 var riseTime = 25;
-var accuracy
-var precision
-var jitter
-var resolution
-var resolution_max = 51;
-var resolution_min =  1;
-var nsValue = 10; // 10 pixels per nanosecond
 var range_max_px = 200; // Range in pixels
-var range_max_ns = range_max_px / nsValue; // 40 nanoseconds
+var accuracy;
+var accuracy_reference;
+var precision;
+var precision_reference;// = range_max_px / Number(slider_precision.max) * Number(slider_precision.value);
+var jitter;
+var resolution;
+//var resolution_max = 51;
+//var resolution_min =  1;
+//var nsValue = 10; // 10 pixels per nanosecond
+//var range_max_ns = range_max_px / nsValue; // 40 nanoseconds
+
 
 
 // Function to perform when slider is moved
-function read_resolution_slider() {
-  console.log("-----------------------");
-  resolution = Math.max(resolution_min, resolution_max-Number(slider_resolution.value));
-  console.log("Resolution: " + resolution);
+function read_accuracy_slider() {
+  accuracy  = Number(slider_accuracy.value);
   // Display the current slider values in the corresponding HTML elements.
-  slider_resolution_output.textContent = slider_resolution.value;
-
-  console.log("slider_precision.value: " + Number(slider_precision.value));
-  console.log("slider_precision.max: " + slider_precision.max);
-  var precision_before = (Number(slider_precision.value) / Number(slider_precision.max)).toPrecision(1);
-  console.log("precision_before: " + precision_before);
-  console.log("resolution: " + resolution);
-  slider_precision.max =  range_max_px    / resolution;
-  console.log("slider_precision.max: " + slider_precision.max);
-  slider_precision.value = (precision_before * Number(slider_precision.max));//.toPrecision(1);
-  console.log("slider_precision.value: " + slider_precision.value);
-  read_precision_slider();
-
-  slider_accuracy.max  =  Math.round((range_max_px/2) / resolution);
-  slider_accuracy.min  = -Math.round((range_max_px/2) / resolution);
+  slider_accuracy_output.textContent = accuracy;
+  accuracy_reference = range_max_px / Number(slider_accuracy.max) * accuracy;
+  console.log("accuracy: " + accuracy + "   accuracy reference in pixels: " + accuracy_reference);
 }
 // Read variable values from HTML sliders when we move them (input, not change)
-slider_resolution.addEventListener('input', function() {
-  read_resolution_slider();
+slider_accuracy.addEventListener('input', function() {
+  read_accuracy_slider();
 }, false);
 // Perform slider function at least once when the script is executed for the first time
-read_resolution_slider();
+read_accuracy_slider();
+
 
 // Function to perform when slider is moved
 function read_precision_slider() {
   precision = Number(slider_precision.value);
-  console.log("Precision: " + precision);
   // Display the current slider values in the corresponding HTML elements.
   slider_precision_output.textContent = precision;
+  precision_reference = range_max_px / Number(slider_precision.max) * precision;
   jitter = slider_precision.max-precision;
+  console.log("precision: " + precision + "   precision reference in pixels: " + precision_reference + "   jitter: " + jitter);
 }
 // Read variable values from HTML sliders when we move them (input, not change)
 slider_precision.addEventListener('input', function() {
@@ -417,18 +407,65 @@ read_precision_slider();
 
 
 // Function to perform when slider is moved
-function read_accuracy_slider() {
-  accuracy  = Number(slider_accuracy.value);
-  console.log("Accuracy: " + accuracy);
+function read_resolution_slider() {
+  console.log("-----------------------");
+  resolution = Number(slider_resolution.value);
+  console.log("resolution: " + resolution);
   // Display the current slider values in the corresponding HTML elements.
-  slider_accuracy_output.textContent = accuracy;
+  slider_resolution_output.textContent = slider_resolution.value;
+
+  // Determine new corresponding precision setting, taking the resolution change into account.
+  // TODO: Optimize this...
+  slider_precision.max =  range_max_px / resolution;
+  console.log("maximum precision at this resolution: " + Math.round(slider_precision.max));
+  console.log("precision reference: " + precision_reference);
+  let mincalc = 200;
+  let tempmin = 200;
+  let closest_match = 0;
+  for (let i=0; i<= Number(slider_precision.max); i++) {
+    let slider_at_val = range_max_px / Number(slider_precision.max) * i;
+    console.log("slider_at_val after " + Math.round(Number(slider_precision.max)) + " position " + i + " is " + Math.round(slider_at_val));
+    mincalc = Math.min(Math.abs(slider_at_val-precision_reference));
+    if (mincalc <= tempmin) {
+      closest_match = i;
+      tempmin = mincalc;
+    }
+  }
+  console.log("Closest match: " + closest_match);
+  slider_precision.value = closest_match;
+  precision = Number(slider_precision.value);
+  slider_precision_output.textContent = Number(slider_precision.value);
+  jitter = slider_precision.max-precision;
+  
+  // Determine new corresponding accuracy setting, taking the resolution change into account.
+  // TODO: Optimize this...
+  slider_accuracy.max  =  Math.round((range_max_px/2) / resolution);
+  slider_accuracy.min  = -Math.round((range_max_px/2) / resolution);
+  console.log("min and max accuracy at this resolution: " + Math.round(slider_precision.min) + " and " + Math.round(slider_precision.max));
+  console.log("accuracy reference: " + accuracy_reference);
+  mincalc = 200;
+  tempmin = 200;
+  closest_match = 0;
+  for (let i=0; i<= Number(slider_accuracy.max); i++) {
+    let slider_at_val = range_max_px / Number(slider_accuracy.max) * i;
+    console.log("slider_at_val after " + Math.round(Number(slider_accuracy.max)) + " position " + i + " is " + Math.round(slider_at_val));
+    mincalc = Math.min(Math.abs(slider_at_val-Math.abs(accuracy_reference)));
+    if (mincalc <= tempmin) {
+      closest_match = i;
+      tempmin = mincalc;
+    }
+  }
+  console.log("Closest match: " + closest_match + "   accuracy sign: " +  Math.sign(accuracy));
+  slider_accuracy.value = closest_match * Math.sign(accuracy);
+  accuracy = Number(slider_accuracy.value);
+  slider_accuracy_output.textContent = Number(slider_accuracy.value);
 }
 // Read variable values from HTML sliders when we move them (input, not change)
-slider_accuracy.addEventListener('input', function() {
-  read_accuracy_slider();
+slider_resolution.addEventListener('input', function() {
+  read_resolution_slider();
 }, false);
 // Perform slider function at least once when the script is executed for the first time
-read_accuracy_slider();
+read_resolution_slider();
 
 
 
