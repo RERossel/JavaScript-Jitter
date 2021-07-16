@@ -22,7 +22,7 @@ var context_waveform = canvas_waveform.getContext('2d');
 function DrawRisingEdge(startXValue) {
 
   let randomJitter = (Math.random() - 0.5);
-  let scaledJitter = Math.floor(randomJitter * jitter);
+  let scaledJitter = Math.round(randomJitter * jitter);
   let pixelJitter  = scaledJitter * resolution;
   //console.log("RandomJitter: " + randomJitter + " " + "ScaledJitter: " + scaledJitter + " " + "PixelJitter: " + pixelJitter);
 
@@ -75,10 +75,10 @@ function DrawBullseyeHit(x, y) {
   this.endAngle = 2 * Math.PI;
   this.alphaOpacity = 1.0;
   let randomJitterX = (Math.random() - 0.5);
-  let scaledJitterX = Math.floor(randomJitterX * jitter);
+  let scaledJitterX = Math.round(randomJitterX * jitter);
   let pixelJitterX  = scaledJitterX * resolution;
   let randomJitterY = (Math.random() - 0.5);
-  let scaledJitterY = Math.floor(randomJitterY * jitter);
+  let scaledJitterY = Math.round(randomJitterY * jitter);
   let pixelJitterY  = scaledJitterY * resolution;
 
   //this.jitterX = (Math.random() - 0.5) * jitter * resolution;
@@ -409,7 +409,7 @@ read_precision_slider();
 // Function to perform when slider is moved
 function read_resolution_slider() {
   console.log("-----------------------");
-  resolution = Number(slider_resolution.value);
+  resolution = Number(slider_resolution.max)-Number(slider_resolution.value)+1;
   console.log("resolution: " + resolution);
   // Display the current slider values in the corresponding HTML elements.
   slider_resolution_output.textContent = slider_resolution.value;
