@@ -513,7 +513,7 @@ function animate() {
   // Add a new rising edge every 50 ms.
   if (loopTimeSum > 50) {
     risingEdges.unshift(new DrawRisingEdge(canvas_waveform.width / 2 + accuracy * resolution));
-    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * resolution, 150));
+    bullseyeHits.unshift(new DrawBullseyeHit(canvas_bullseye.width / 2 + accuracy * resolution, canvas_bullseye.height / 2));
     loopTimeSum = 0;
   }
 
