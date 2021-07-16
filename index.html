@@ -36,11 +36,11 @@
 <body>
 
     <div>
-        <canvas id="canvas_bullseye" width="500" height="250"></canvas>
+        <canvas id="canvas_bullseye" width="500" height="300" style="max-width: 100%; height: auto;"></canvas>
     </div>
 
     <div>
-        <canvas id="canvas_wavefrom" width="500" height="250"></canvas>
+        <canvas id="canvas_wavefrom" width="500" height="300" style="max-width:100%;height:auto;"></canvas>
     </div>
     
     <div class="slider_container">
@@ -61,14 +61,14 @@
         <span class="slider_label">
             <b>Precision<sup><span title="Jitter is the inverse of precision. High precision means low jitter.">&#x2139;</span></sup>: </b>
         </span>
-        <input id="slider_precision" type="range" min="0" max="20" value="10" class="slider" style="width:300px">
+        <input id="slider_precision" type="range" min="0" max="10" value="5" class="slider" style="width:300px">
         <span class="slider_output">
             value: <span id="slider_precision_output" class="slider_value">10</span>
         </span>
     </div>
     <div>
         How well do we hit the <u>previous</u> value <i>again</i>? </br>
-        <div style="color: rgb(127, 127, 127);">&#x2139;: <b>Jitter</b> is the inverse of precision. High precision means low jitter.</div>
+        <div style="color: rgb(127, 127, 127);">&#x2139;: <b>Jitter</b> is the opposite of precision. High precision means low jitter.</div>
     </div>
     </br>
 
@@ -76,14 +76,14 @@
         <span class="slider_label">
             <b>Resolution: </b>
         </span>
-        <input id="slider_resolution" type="range" min="1" max="19" value="10" class="slider" style="width:300px; /*direction: rtl;*/">
+        <input id="slider_resolution" type="range" min="1" max="50" value="26" class="slider" style="width:300px; /*direction: rtl;*/">
         
         <span class="slider_output">
             value: <span id="slider_resolution_output" class="slider_value">1</span>
         </span>
     </div>
     <div class="slider_description">
-        How <i>fine</i> can we adjust our values?
+        How <i>fine</i> can we adjust (and measure) our values?
     </div>
     </br>
 
