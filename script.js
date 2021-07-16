@@ -143,7 +143,7 @@ function drawJitterMargin() {
   // Draw the jitter margin indicator as a red line below the waveform.
   context_waveform.strokeStyle = 'rgba(191, 0, 0, 1 )';
   context_waveform.lineCap = "round";
-  context_waveform.lineWidth = 3;
+  context_waveform.lineWidth = 4;
 
     context_waveform.beginPath();
     context_waveform.moveTo(canvas_waveform.width / 2 + ( accuracy * resolution )            - maxJitter, 220);
@@ -183,7 +183,7 @@ function drawJitterMargin() {
   // Draw the vertical dashed 'target' line.
   context_waveform.beginPath();
   context_waveform.moveTo(canvas_waveform.width / 2, 20);
-  context_waveform.lineTo(canvas_waveform.width / 2, canvas_waveform.height - 70);
+  context_waveform.lineTo(canvas_waveform.width / 2, 210);
   context_waveform.strokeStyle = 'rgba(  0,   0, 191, 0.5 )';
   context_waveform.save();
   context_waveform.setLineDash([5, 15]);
@@ -314,37 +314,37 @@ var drawTimeSegments = function() {
 
   // Draw a horizontal line.
   context_waveform.beginPath();
-  context_waveform.moveTo(25, 270);
-  context_waveform.lineTo(475, 270);
+  context_waveform.moveTo(25, 220);
+  context_waveform.lineTo(475, 220);
   context_waveform.stroke();
 
   // Draw ten vertical tickmarks
   // Draw the first half of the tickmarks from the middle to the left.
   for (var x = canvas_waveform.width/2; x > 0; x -= 50) {
     context_waveform.beginPath();
-    context_waveform.moveTo(x, 260);
-    context_waveform.lineTo(x, 280);
+    context_waveform.moveTo(x, 210);
+    context_waveform.lineTo(x, 230);
     context_waveform.stroke();
   }
   // Draw the second half of the the tickmarks from the middle to the right.
   for (var x = canvas_waveform.width/2; x < canvas_waveform.width; x += 50) {
     context_waveform.beginPath();
-    context_waveform.moveTo(x, 260);
-    context_waveform.lineTo(x, 280);
+    context_waveform.moveTo(x, 210);
+    context_waveform.lineTo(x, 230);
     context_waveform.stroke();
   }
   // Draw the first half of the tickmarks from the middle to the left.
   for (var x = canvas_waveform.width/2; x > 0; x -= 100) {
     context_waveform.beginPath();
-    context_waveform.moveTo(x, 260);
-    context_waveform.lineTo(x, 280);
+    context_waveform.moveTo(x, 210);
+    context_waveform.lineTo(x, 230);
     context_waveform.stroke();
   }
   // Draw the second half of the the tickmarks from the middle to the right.
   for (var x = canvas_waveform.width/2; x < canvas_waveform.width; x += 100) {
     context_waveform.beginPath();
-    context_waveform.moveTo(x, 260);
-    context_waveform.lineTo(x, 280);
+    context_waveform.moveTo(x, 210);
+    context_waveform.lineTo(x, 230);
     context_waveform.stroke();
   }
 
@@ -497,8 +497,12 @@ function animate() {
 
   // Start animation via recursive call.
   requestAnimationFrame(animate);
-  context_waveform.clearRect(0, 0, innerWidth, innerHeight);
-  context_bullseye.clearRect(0, 0, innerWidth, innerHeight);
+  // This bugged out for some reason when rescaling on my phone.
+  //context_waveform.clearRect(0, 0, innerWidth, innerHeight);
+  //context_bullseye.clearRect(0, 0, innerWidth, innerHeight);
+  // Hard coded canvas size values for now...
+  context_waveform.clearRect(0, 0, 500, 300);
+  context_bullseye.clearRect(0, 0, 500, 300);
 
   drawGrid();
   drawTimeSegments();
